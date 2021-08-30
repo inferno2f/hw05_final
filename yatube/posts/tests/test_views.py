@@ -2,10 +2,8 @@ import shutil
 import tempfile
 
 from django.conf import settings
-from django.contrib import auth
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.contrib.auth import get_user_model
-from django.http import response
 from ..models import Follow, Post, Group
 from django.test import TestCase, Client
 from django.urls import reverse
@@ -84,7 +82,7 @@ class PostsViewsTests(TestCase):
             with self.subTest(template=template):
                 response = self.authorized_client.get(reverse_name)
                 self.assertTemplateUsed(response, template)
-    
+
     def test_page_404(self):
         """
         Assert custom template is used when address not found
