@@ -38,7 +38,7 @@ def group_posts(request, slug):
 def profile(request, username):
     author = get_object_or_404(User, username=username)
     is_following = False
-    if not request.user.is_anonymous:
+    if not request.user.is_anonymous and request.user != author:
         is_following = Follow.objects.filter(user=request.user, author=author)
     paginator = Paginator(author.posts.select_related("group").all(), 10)
     page_number = request.GET.get("page")
@@ -120,8 +120,10 @@ def follow(request, username):
     """
     author = get_object_or_404(User, username=username)
     user = request.user
-    new_follow = Follow(user=user, author=author)
-    new_follow.save()
+    if user != author:
+        if not Follow.objects.filter(user=user, author=author):
+            new_follow = Follow(user=user, author=author)
+            new_follow.save()
     return redirect("posts:profile", username)
 
 
