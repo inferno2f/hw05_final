@@ -8,7 +8,7 @@
     <div class="container py-3">
       <h1>Все посты пользователя {{ author|capfirst }}</h1>
       <h3>Всего постов: {{ author.posts.count }}</h3>
-      {% if user.is_authenticated %}
+      {% if user.is_authenticated and request.user != author %}
       {% if following %}
         <a class="btn btn-lg btn-light" href="{% url 'posts:profile_unfollow' author.username %}" role="button">
           Отписаться

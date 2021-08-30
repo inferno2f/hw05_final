@@ -54,7 +54,6 @@ class PostsViewsTests(TestCase):
         self.authorized_client = Client()
         self.authorized_client.force_login(self.user)
 
-
     def check_post_fields(self, context):
         self.assertEqual(context.text, self.post.text)
         self.assertEqual(context.author, self.post.author)
