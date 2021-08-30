@@ -2,9 +2,11 @@ import shutil
 import tempfile
 
 from django.conf import settings
+from django.contrib import auth
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.contrib.auth import get_user_model
-from ..models import Post, Group
+from django.http import response
+from ..models import Follow, Post, Group
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.core.cache import cache
@@ -156,3 +158,20 @@ class PostsViewsTests(TestCase):
         response = self.client.get(reverse("posts:index"))
         decoded = response.content.decode(encoding="UTF-8", errors="strict")
         self.assertInHTML(self.post.text, decoded)
+
+    def test_followed_authors_page(self):
+        """
+        Follow feed should display posts from author followed by user.
+        """
+        follower = User.objects.create_user(username="Bobik")
+        non_follower = User.objects.create_user(username="Lelik")
+        auth_follower = Client()
+        auth_non_follower = Client()
+        auth_follower.force_login(follower)
+        auth_non_follower.force_login(non_follower)
+        Follow.objects.create(user=follower, author=self.user)
+        response_sub = auth_follower.get(reverse("posts:follow_index"))
+        response_non_sub = auth_non_follower.get(reverse("posts:follow_index"))
+        sub_post = response_sub.context["page_obj"][0]
+        self.assertEqual(sub_post.text, self.post.text)
+        self.assertEqual(len(response_non_sub.context["page_obj"]), 0)
