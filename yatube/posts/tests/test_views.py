@@ -84,6 +84,13 @@ class PostsViewsTests(TestCase):
             with self.subTest(template=template):
                 response = self.authorized_client.get(reverse_name)
                 self.assertTemplateUsed(response, template)
+    
+    def test_page_404(self):
+        """
+        Assert custom template is used when address not found
+        """
+        response = self.guest_client.get("/some_page/")
+        self.assertTemplateUsed(response, "core/404.html")
 
     def test_main_page_context(self):
         """Testing information from the context on the main page."""
