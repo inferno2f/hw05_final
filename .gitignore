@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+# Static files
+yatube/static/
+yatube/media/
+
 # Distribution / packaging
 .Python
 build/
