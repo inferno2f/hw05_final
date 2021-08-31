@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
@@ -7,12 +8,14 @@ from django.views.decorators.vary import vary_on_cookie
 from .forms import CommentForm, PostForm
 from .models import Follow, Group, Post, User
 
+LIM = settings.PAGINATION_LIMIT
+
 
 @cache_page(20)
 @vary_on_cookie
 def index(request):
     posts = Post.objects.select_related("group", "author").all()
-    paginator = Paginator(posts, 10)
+    paginator = Paginator(posts, LIM)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     context = {
@@ -24,7 +27,9 @@ def index(request):
 
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
-    paginator = Paginator(group.posts.select_related("author").all(), 10)
+    paginator = Paginator(
+        group.posts.select_related("author").all(),
+        LIM)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     context = {
@@ -40,7 +45,9 @@ def profile(request, username):
     is_following = False
     if not request.user.is_anonymous and request.user != author:
         is_following = Follow.objects.filter(user=request.user, author=author)
-    paginator = Paginator(author.posts.select_related("group").all(), 10)
+    paginator = Paginator(
+        author.posts.select_related("group").all(),
+        LIM)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     context = {
@@ -149,7 +156,7 @@ def follow_index(request):
     posts = Post.objects.filter(author__in=subs).select_related(
         "author", "group"
     )
-    paginator = Paginator(posts, 10)
+    paginator = Paginator(posts, LIM)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     context = {
