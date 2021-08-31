@@ -181,8 +181,9 @@ class PostsViewsTests(TestCase):
         """
         response = self.client.get(
             reverse(
-                "posts:profile_follow",
-                kwargs={"username": self.user.username}))
+                "posts:profile_follow", kwargs={"username": self.user.username}
+            )
+        )
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
 
     def test_new_follower_added(self):
@@ -193,12 +194,16 @@ class PostsViewsTests(TestCase):
         self.authorized_client.get(
             reverse(
                 "posts:profile_follow",
-                kwargs={"username": fav_author.username}))
+                kwargs={"username": fav_author.username},
+            )
+        )
         new_sub = Follow.objects.filter(
-            user=self.user, author=fav_author).exists()
+            user=self.user, author=fav_author
+        ).exists()
         self.assertTrue(
             new_sub,
-            "New subscription hasn't been added, check you follow func")
+            "New subscription hasn't been added, check you follow func",
+        )
 
     def test_follower_removed(self):
         """
@@ -208,13 +213,19 @@ class PostsViewsTests(TestCase):
         self.authorized_client.get(
             reverse(
                 "posts:profile_follow",
-                kwargs={"username": fav_author.username}))
+                kwargs={"username": fav_author.username},
+            )
+        )
         self.authorized_client.get(
             reverse(
                 "posts:profile_unfollow",
-                kwargs={"username": fav_author.username}))
+                kwargs={"username": fav_author.username},
+            )
+        )
         new_sub = Follow.objects.filter(
-            user=self.user, author=fav_author).exists()
+            user=self.user, author=fav_author
+        ).exists()
         self.assertFalse(
             new_sub,
-            "Subscription hasn't been removed from the DB, check your unfollow method")
+            "Subscription wasn't removed, check your unfollow method",
+        )

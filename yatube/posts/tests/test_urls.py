@@ -75,7 +75,7 @@ class PostsURLTests(TestCase):
     def test_non_existant_page(self):
         response = self.guest_client.get("/some_page/")
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
-    
+
     def test_page_404(self):
         """
         Assert custom template is used when address not found
