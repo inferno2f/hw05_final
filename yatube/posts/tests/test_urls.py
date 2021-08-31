@@ -37,6 +37,7 @@ class PostsURLTests(TestCase):
             reverse(
                 "posts:update_post", kwargs={"post_id": cls.post.id}
             ): "posts/create_post.html",
+            reverse("posts:follow_index"): "posts/follow.html",
         }
 
     def setUp(self) -> None:
@@ -74,3 +75,10 @@ class PostsURLTests(TestCase):
     def test_non_existant_page(self):
         response = self.guest_client.get("/some_page/")
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
+    
+    def test_page_404(self):
+        """
+        Assert custom template is used when address not found
+        """
+        response = self.client.get("/some_page/")
+        self.assertTemplateUsed(response, "core/404.html")

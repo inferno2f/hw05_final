@@ -1,5 +1,6 @@
 import shutil
 import tempfile
+from http import HTTPStatus
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -82,13 +83,6 @@ class PostsViewsTests(TestCase):
             with self.subTest(template=template):
                 response = self.authorized_client.get(reverse_name)
                 self.assertTemplateUsed(response, template)
-
-    def test_page_404(self):
-        """
-        Assert custom template is used when address not found
-        """
-        response = self.guest_client.get("/some_page/")
-        self.assertTemplateUsed(response, "core/404.html")
 
     def test_main_page_context(self):
         """Testing information from the context on the main page."""
@@ -180,3 +174,47 @@ class PostsViewsTests(TestCase):
         sub_post = response_sub.context["page_obj"][0]
         self.assertEqual(sub_post.text, self.post.text)
         self.assertEqual(len(response_non_sub.context["page_obj"]), 0)
+
+    def test_profile_follow_with_guest_client(self):
+        """
+        Assert that unauthorized clients can't follow authors
+        """
+        response = self.client.get(
+            reverse(
+                "posts:profile_follow",
+                kwargs={"username": self.user.username}))
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+
+    def test_new_follower_added(self):
+        """
+        Assert follow func works, new DB record should be added
+        """
+        fav_author = User.objects.create(username="Kevin")
+        self.authorized_client.get(
+            reverse(
+                "posts:profile_follow",
+                kwargs={"username": fav_author.username}))
+        new_sub = Follow.objects.filter(
+            user=self.user, author=fav_author).exists()
+        self.assertTrue(
+            new_sub,
+            "New subscription hasn't been added, check you follow func")
+
+    def test_follower_removed(self):
+        """
+        Assert unfollow func works, record should be removed from the DB
+        """
+        fav_author = User.objects.create(username="Kevin")
+        self.authorized_client.get(
+            reverse(
+                "posts:profile_follow",
+                kwargs={"username": fav_author.username}))
+        self.authorized_client.get(
+            reverse(
+                "posts:profile_unfollow",
+                kwargs={"username": fav_author.username}))
+        new_sub = Follow.objects.filter(
+            user=self.user, author=fav_author).exists()
+        self.assertFalse(
+            new_sub,
+            "Subscription hasn't been removed from the DB, check your unfollow method")
