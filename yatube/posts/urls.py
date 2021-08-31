@@ -22,12 +22,12 @@ urlpatterns = [
         name="update_post",
     ),
     path(
-        "profile/<str:username>/follow",
+        "profile/<str:username>/follow/",
         views.follow,
         name="profile_follow",
     ),
     path(
-        "profile/<str:username>/unfollow",
+        "profile/<str:username>/unfollow/",
         views.unfollow,
         name="profile_unfollow",
     ),
