@@ -56,11 +56,11 @@ class Comment(models.Model):
     text = models.TextField(verbose_name="Оставить комментарий")
     created = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self) -> str:
-        return self.text[:15]
-
     class Meta:
         ordering = ("-created",)
+
+    def __str__(self) -> str:
+        return self.text[:15]
 
 
 class Follow(models.Model):
@@ -78,3 +78,9 @@ class Follow(models.Model):
         verbose_name="Автор",
         blank=True
     )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'author'],
+                name="unique_subscription")]
