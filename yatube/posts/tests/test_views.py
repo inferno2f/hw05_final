@@ -2,13 +2,13 @@ import shutil
 import tempfile
 
 from django.conf import settings
-from django.core.files.uploadedfile import SimpleUploadedFile
 from django.contrib.auth import get_user_model
-from ..models import Follow, Post, Group
-from django.test import TestCase, Client
-from django.urls import reverse
 from django.core.cache import cache
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.test import Client, TestCase
+from django.urls import reverse
 
+from ..models import Follow, Group, Post
 
 User = get_user_model()
 

@@ -1,15 +1,15 @@
 import shutil
 import tempfile
-
-from django.conf import settings
-from django.core.files.uploadedfile import SimpleUploadedFile
 from http import HTTPStatus
-from django.contrib.auth import get_user_model
-from ..models import Comment, Post, Group
-from django.test import TestCase, Client
-from django.urls import reverse
-from django import forms
 
+from django import forms
+from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.test import Client, TestCase
+from django.urls import reverse
+
+from ..models import Comment, Group, Post
 
 User = get_user_model()
 
