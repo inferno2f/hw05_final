@@ -149,7 +149,6 @@ def follow_index(request):
     """
     posts = (
         Post.objects.filter(author__following__user=request.user)
-        .distinct()
         .select_related(
             "author",
             "group",
