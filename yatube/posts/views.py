@@ -27,9 +27,7 @@ def index(request):
 
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
-    paginator = Paginator(
-        group.posts.select_related("author").all(),
-        LIM)
+    paginator = Paginator(group.posts.select_related("author").all(), LIM)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     context = {
@@ -45,10 +43,9 @@ def profile(request, username):
     is_following = False
     if not request.user.is_anonymous and request.user != author:
         is_following = Follow.objects.filter(
-            user=request.user, author=author).exists()
-    paginator = Paginator(
-        author.posts.select_related("group").all(),
-        LIM)
+            user=request.user, author=author
+        ).exists()
+    paginator = Paginator(author.posts.select_related("group").all(), LIM)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     context = {
@@ -150,11 +147,14 @@ def follow_index(request):
     """
     Will dislpay posts only from user's subscriptions
     """
-    user = request.user
-    subs = user.follower.all().values("author")
-    posts = Post.objects.filter(
-        author__in=subs).select_related(
-        "author", "group")
+    posts = (
+        Post.objects.filter(author__following__user=request.user)
+        .distinct()
+        .select_related(
+            "author",
+            "group",
+        )
+    )
     paginator = Paginator(posts, LIM)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
