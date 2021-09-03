@@ -2,11 +2,11 @@
 {% block title %}Зарегистрироваться{% endblock %}
 {% block content %}
   <div class="row justify-content-center">
-    <div class="col-md-8 p-5">
+    <div class="col-md-10 p-5">
       <div class="card">
         <div class="card-header">Зарегистрироваться</div>
           <div class="card-body">
-          {% load user_filters %} {# Загружаем фильтры #}
+          {% load user_filters %}
               {% if form.errors %}
                   {% for field in form %} 
                     {% for error in field.errors %}            

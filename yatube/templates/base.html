@@ -1,7 +1,8 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="ru">
-  <head>    
+
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href={% static "img/fav/favicon.ico" %} type="image">
@@ -10,23 +11,27 @@
     <link rel="icon" type="image/png" sizes="16x16" href={% static "img/fav/favicon-16x16.png" %}>
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href={% static "css/bootstrap.min.css" %}>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <title>
       {% block title %}
-        Последние обновления на сайте
+      Последние обновления на сайте
       {% endblock %}
     </title>
   </head>
+
   <body>
+    <div class="sticky-top">
     {% include 'includes/header.html' %}
-    <main>
-      <div class="container">
-        {% block content %}
-          Oops, something went wrong<br>
-          Please check back later 
-        {% endblock %}
-      </div>  
+    </div>
+    <div class="container-xxl">
+      {% block content %}
+      Oops, something went wrong<br>
+      Please check back later
+      {% endblock %}
+    </div>
     </main>
     {% include 'includes/footer.html' %}
+    </div>
   </body>
 </html>

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "debug_toolbar",
     "sorl.thumbnail",
+    "django.contrib.humanize",
 ]
 
 MIDDLEWARE = [

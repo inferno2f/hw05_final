@@ -58,7 +58,9 @@
       </div>
       <hr>
       {% endif %}
-
+      {% if comments.count == 0 %}
+      <h5>Отлично, вы можете оставить первый комментарий!</h5>
+      {% else %}
       {% for comment in comments %}
       <div class="card" style="width: 30rem;">
         <div class="card-body">
@@ -72,6 +74,7 @@
       </div>
       <br>
       {% endfor %}
+      {% endif %}
     </article>
   </div>
 </main>
