@@ -23,10 +23,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "h57f^$u)#txz-x7%^$4@k$m7t8v-5qyu^c#t=32a91r2&ezi^="
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["testserver", "127.0.0.1"]
-
+ALLOWED_HOSTS = [
+    "testserver",
+    "127.0.0.1",
+    "www.inferno2f.pythonanywhere.com",
+    "inferno2f.pythonanywhere.com",
+]
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
@@ -67,8 +71,8 @@ if DEBUG:
 
 # Setting up cache
 CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
     }
 }
 
