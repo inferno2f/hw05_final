@@ -1,15 +1,20 @@
 {% extends 'base.html' %}
 {% load thumbnail %}
+{% load humanize %}
 {% block title %}
-  Профайл пользователя {{ author|capfirst }}
+Профайл пользователя {{ author|capfirst }}
 {% endblock title %}
 {% block content %}
-  <main>
-    <div class="container py-3">
-      <h1>Все посты пользователя {{ author|capfirst }}</h1>
-      <h3>Всего постов: {{ author.posts.count }}</h3>
-      {% if user.is_authenticated and request.user != author %}
-      {% if following %}
+<main>
+  <div class="container py-3">
+    <div class="row justify">
+      <div class="col-3">
+        <h1 class="text-secondary">{{ author|capfirst }}</h1>
+        <h5b class="text-secondary">Всего постов: {{ author.posts.count }}</h5>
+      </div>
+      <div class="col-sm">
+        {% if user.is_authenticated and request.user != author %}
+        {% if following %}
         <a class="btn btn-s btn-light" href="{% url 'posts:profile_unfollow' author.username %}" role="button">
           Отписаться
         </a>
@@ -17,30 +22,36 @@
         <a class="btn btn-s btn-primary" href="{% url 'posts:profile_follow' author.username %}" role="button">
           Подписаться
         </a>
-      {% endif %}
-      {% endif %}
-      {% for post in page_obj %}
-        <article>
-          <ul>
-            <li>Автор: {{ post.author.get_full_name|capfirst }}</li>
-            <li>Дата публикации: {{ post.pub_date|date:"d E Y" }}</li>
-          </ul>
-          <p>{{ post.text|linebreaks }}</p>
-          {% thumbnail post.image "960x339" crop="center" upscale=True as im %}
-          <img class="card-img my-2" src="{{ im.url }}">
-          {% endthumbnail %}
-          <a href="{% url 'posts:post_detail' post.id %}">подробная информация </a>
-        </article>
-        <br />
-        {% if post.group %}
-          <a href="{% url 'posts:group_list' post.group.slug %}">
-            Записи группы '{{ post.group.title }}'</a>
         {% endif %}
-        {% if not forloop.last %}
-          <hr />
         {% endif %}
-      {% endfor %}
-      {% include 'posts/includes/paginator.html' %}
+      </div>
     </div>
-  </main>
+    <br>
+    {% for post in page_obj %}
+    <div class="card">
+      <h3 class="card-header">
+        <a href="{% url 'posts:profile' post.author.username %}"> {{ post.author.get_full_name }} </a>
+      </h3>
+      <div class="card-body">
+        <p class="card-text"> {{ post.text|linebreaks }}
+        </p>
+        {% thumbnail post.image "960x339" crop="center" upscale=True as im %}
+        <img class="card-img my-2" src="{{ im.url }}">
+        {% endthumbnail %}
+        <hr>
+        <h6 class="card-text">{{ post.pub_date|naturaltime}} </h6>
+        {% if post.group %}
+        <p> в сообществе
+          <a href="{% url 'posts:group_list' post.group.slug %}"> {{ post.group }} </a>
+        </p>
+        {% endif %}
+        <a href="{% url 'posts:post_detail' post.id %}" class="btn btn-primary">Обсудить</a>
+      </div>
+    </div>
+    {% if not forloop.last %}
+    <hr>{% endif %}
+    {% endfor %}
+    {% include 'posts/includes/paginator.html' %}
+  </div>
+</main>
 {% endblock content %}
