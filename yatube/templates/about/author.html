@@ -1,11 +1,34 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %} Про автора {% endblock %}
 {% block content %}
-<div class="container py-3">
-<h1>Привет, я автор</h1>
-<p>
-  Тут я размещу информацию о себе используя свои умения верстать.
-  Картинки, блоки, элементы бустрап. А может быть, просто напишу несколько абзацев текста.
-</p>
+<main class="mb-4">
+  <div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <img class="card-img my-2"
+          src="https://sun9-17.userapi.com/impf/c849216/v849216414/19845e/aupNVm_8Crs.jpg?size=2560x1705&quality=96&sign=2185a1e86ba7b243e8f7433668b59bdd&type=album">
+        <p>Ахой, друг!</p>
+        <p>Если ты читаешь эту страницу - значит хотя бы одна кнопка навбара этого сайта работает, а это успех! :)</p>
+        <p>Три месяца назад я начал свой увлекательный путь на курсе Практикума и не пожалел об этой затее. Если ты
+          также как и я пошел учться на курс Python-рарзработчика - удачи тебе. Будет сложно, но интересно. ©</p>
+        <p>Spoiler alert: четвертый спринт очень веселый... ))</p>
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col">
+            <a href="https://www.instagram.com/nikitinv/"> <img src="https://image.flaticon.com/icons/png/512/1384/1384015.png" alt="Instagram"
+                height="60px" width="60px"></a>
+          </div>
+          <div class="col">
+            <a href="https://t.me/VladNikitin"> <img src="https://image.flaticon.com/icons/png/512/2111/2111710.png" alt="Telegram"
+                height="60px" width="60px"></a>
+          </div>
+          <div class="col">
+            <a href="https://github.com/inferno2f"> <img src="https://image.flaticon.com/icons/png/512/25/25657.png" alt="GitHub" height="60px"
+                width="60px"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
 {% endblock %}
-</div>
