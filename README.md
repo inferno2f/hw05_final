@@ -1,3 +1,46 @@
-# hw05_final
 
-[![CI](https://github.com/yandex-praktikum/hw05_final/actions/workflows/python-app.yml/badge.svg?branch=master)](https://github.com/yandex-praktikum/hw05_final/actions/workflows/python-app.yml)
+# Сайт-блог PyTube
+
+ 
+Блог или социальная сеть созданная при помощи фрэймворка Django.
+
+Проект создан в рамках курса Python-разработчика в Яндекс.Практикум.
+
+[Тут можно посмотреть сам сайт](http://inferno2f.pythonanywhere.com)
+
+
+## Внедренный функционал
+
+### Доступно всем пользователям:
+
+- Просмотр записей и комментариев
+
+- Регистрация, авторизация
+
+### Доступно авторизированным пользователям
+
+- Создание записей с текстом, картинками и возможность присвоить пост к определенной группе
+
+- Комментирование записей
+
+- Изменение пароля
+
+  
+
+## Как равзернуть проект у себя
+
+  
+
+Склонируйте репозитрий
+
+    $ git clone git.repo.address
+Установите и активируйте виртуальное окружение
+
+    $ python3 -m venv env
+    $ source env/bin/activate
+Установите все зависимости
+
+    $ pip install -r requirements.txt
+Запустите проект из папки yatube
+
+    $ python manage.py runserver
